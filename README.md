@@ -88,6 +88,7 @@ telco-customer-churn/
 │
 ├── requirements.txt
 └── README.md
+```
 
 ## 🧩 Requirements
 
