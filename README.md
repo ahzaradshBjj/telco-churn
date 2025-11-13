@@ -74,19 +74,19 @@ catching more actual churners at the cost of some false positives, which aligns 
 ## 📂 Repository Structure
 
 📦 telco-customer-churn/
-├── 📁 data/
-│   ├── telco-customer-churn.zip
-│   └── extracted/
-│       └── WA_Fn-UseC_-Telco-Customer-Churn.csv
-│
-├── 📁 models/
-│   └── best_hgb_model.pkl
-│
-├── 📁 notebooks/
-│   └── telco_customer_churn.ipynb
-│
-├── requirements.txt
-└── README.md
+|-- 📁 data/
+|   |-- telco-customer-churn.zip
+|   |-- extracted/
+|       |-- WA_Fn-UseC_-Telco-Customer-Churn.csv
+|
+|-- 📁 models/
+|   |-- best_hgb_model.pkl
+|
+|-- 📁 notebooks/
+|   |-- telco_customer_churn.ipynb
+|
+|-- requirements.txt
+|-- README.md
 
 ## 🧩 Requirements
 
