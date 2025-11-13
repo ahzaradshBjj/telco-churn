@@ -73,7 +73,8 @@ catching more actual churners at the cost of some false positives, which aligns 
 
 ## 📂 Repository Structure
 
-´´´telco-customer-churn/
+```bash
+telco-customer-churn/
 ├── data/
 │ ├── telco-customer-churn.zip
 │ └── extracted/
