@@ -167,7 +167,7 @@ def create_preprocessing_pipeline(X_train):
     binary_num_pipeline = "passthrough"
     
     cat_pipeline = Pipeline([
-        ("onehot", OneHotEncoder(handle_unknown="ignore", sparse_output=False))
+        ("onehot", OneHotEncoder(handle_unknown="ignore", sparse=False))
     ])
     
     # Combine into preprocessor
