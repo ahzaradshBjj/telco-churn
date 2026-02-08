@@ -271,8 +271,8 @@ def main():
         'random_state': args.random_state,
     }
     
-    mlflow.log_params(hyperparams)
-    mlflow.log_param('test_size', args.test_size)
+    # mlflow.log_params(hyperparams)
+    # mlflow.log_param('test_size', args.test_size)
     
     # Load and prepare data
     X_train, X_test, y_train, y_test = load_and_prepare_data(
@@ -289,7 +289,7 @@ def main():
     metrics = evaluate_model(pipeline, X_test, y_test)
     
     # Log metrics to MLflow
-    mlflow.log_metrics(metrics)
+    # mlflow.log_metrics(metrics)
     
     # Save outputs
     save_outputs(pipeline, metrics, hyperparams, args.output_dir)
