@@ -1,0 +1,8 @@
+outputs/
+models/*.pkl
+models/*.json
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+.DS_Store
