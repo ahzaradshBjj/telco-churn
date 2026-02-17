@@ -26,10 +26,10 @@
         "from pathlib import Path"
       ],
       "outputs": [],
-      "execution_count": 2,
+      "execution_count": 10,
       "metadata": {
         "gather": {
-          "logged": 1771338834040
+          "logged": 1771340462838
         }
       },
       "id": "b6605ac9-2dfd-4112-ac54-5cb2be33f193"
@@ -46,7 +46,7 @@
         {
           "output_type": "stream",
           "name": "stderr",
-          "text": "Found the config file in: /config.json\n"
+          "text": "Found the config file in: /config.json\nOverriding of current MeterProvider is not allowed\nOverriding of current TracerProvider is not allowed\nOverriding of current LoggerProvider is not allowed\nAttempting to instrument while already instrumented\nAttempting to instrument while already instrumented\nAttempting to instrument while already instrumented\nAttempting to instrument while already instrumented\nAttempting to instrument while already instrumented\n"
         },
         {
           "output_type": "stream",
@@ -54,10 +54,10 @@
           "text": "Conectado a workspace: mlw-churn-dev\nResource group: rg-churn-dev\n"
         }
       ],
-      "execution_count": 3,
+      "execution_count": 11,
       "metadata": {
         "gather": {
-          "logged": 1771338847605
+          "logged": 1771340463662
         }
       },
       "id": "d6a64a9b-773d-4729-9cba-2d4a525cb49f"
@@ -90,13 +90,13 @@
         {
           "output_type": "stream",
           "name": "stdout",
-          "text": "✅ Environment: churn-sklearn13:3\n"
+          "text": "✅ Environment: churn-sklearn13:4\n"
         }
       ],
-      "execution_count": 8,
+      "execution_count": 12,
       "metadata": {
         "gather": {
-          "logged": 1771339767934
+          "logged": 1771340465894
         }
       },
       "id": "1ba6d3a3-4026-4189-9bc6-67ca6e1b4299"
@@ -121,10 +121,10 @@
           "text": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/ci-churn-dev/code/Users/asandovh/telco-churn\n"
         }
       ],
-      "execution_count": 9,
+      "execution_count": 13,
       "metadata": {
         "gather": {
-          "logged": 1771339768086
+          "logged": 1771340466368
         }
       },
       "id": "53997580-69de-41d2-ab68-64160369985d"
@@ -156,18 +156,18 @@
         {
           "output_type": "stream",
           "name": "stderr",
-          "text": "\u001b[32mUploading telco-churn (4.98 MBs): 100%|██████████| 4983386/4983386 [00:01<00:00, 4298387.12it/s]\n\u001b[39m\n\n"
+          "text": "\u001b[32mUploading telco-churn (4.99 MBs): 100%|██████████| 4989273/4989273 [00:01<00:00, 3979843.72it/s]\n\u001b[39m\n\n"
         },
         {
           "output_type": "stream",
           "name": "stdout",
-          "text": "\nJob enviado!\nNombre: goofy_shoe_mj263p36f5\nStatus: Starting\nStudio URL: https://ml.azure.com/runs/goofy_shoe_mj263p36f5?wsid=/subscriptions/9cbbe496-fe29-459a-a3d7-44790ebac1fb/resourcegroups/rg-churn-dev/workspaces/mlw-churn-dev&tid=3048dc87-43f0-4100-9acb-ae1971c79395\n\nVer job en Azure ML Studio:\n   https://ml.azure.com/runs/goofy_shoe_mj263p36f5?wsid=/subscriptions/9cbbe496-fe29-459a-a3d7-44790ebac1fb/resourcegroups/rg-churn-dev/workspaces/mlw-churn-dev&tid=3048dc87-43f0-4100-9acb-ae1971c79395\n"
+          "text": "\nJob enviado!\nNombre: plum_branch_qdbn1n474v\nStatus: Starting\nStudio URL: https://ml.azure.com/runs/plum_branch_qdbn1n474v?wsid=/subscriptions/9cbbe496-fe29-459a-a3d7-44790ebac1fb/resourcegroups/rg-churn-dev/workspaces/mlw-churn-dev&tid=3048dc87-43f0-4100-9acb-ae1971c79395\n\nVer job en Azure ML Studio:\n   https://ml.azure.com/runs/plum_branch_qdbn1n474v?wsid=/subscriptions/9cbbe496-fe29-459a-a3d7-44790ebac1fb/resourcegroups/rg-churn-dev/workspaces/mlw-churn-dev&tid=3048dc87-43f0-4100-9acb-ae1971c79395\n"
         }
       ],
-      "execution_count": 7,
+      "execution_count": 14,
       "metadata": {
         "gather": {
-          "logged": 1771339008771
+          "logged": 1771340481795
         }
       },
       "id": "cf8d7f14-d496-4232-910d-9404e0c3e32a"
@@ -183,21 +183,21 @@
   ],
   "metadata": {
     "kernelspec": {
-      "display_name": "Python 3.10 - AzureML",
+      "name": "python38-azureml",
       "language": "python",
-      "name": "python38-azureml"
+      "display_name": "Python 3.10 - AzureML"
     },
     "language_info": {
+      "name": "python",
+      "version": "3.10.11",
+      "mimetype": "text/x-python",
       "codemirror_mode": {
         "name": "ipython",
         "version": 3
       },
-      "file_extension": ".py",
-      "mimetype": "text/x-python",
-      "name": "python",
-      "nbconvert_exporter": "python",
       "pygments_lexer": "ipython3",
-      "version": "3.10.11"
+      "nbconvert_exporter": "python",
+      "file_extension": ".py"
     },
     "microsoft": {
       "ms_spell_check": {
@@ -211,6 +211,9 @@
     },
     "nteract": {
       "version": "nteract-front-end@1.0.0"
+    },
+    "kernel_info": {
+      "name": "python38-azureml"
     }
   },
   "nbformat": 4,

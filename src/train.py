@@ -9,7 +9,6 @@ import os
 from pathlib import Path
 
 import joblib
-import mlflow
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.compose import ColumnTransformer
