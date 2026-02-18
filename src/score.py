@@ -5,29 +5,6 @@ import joblib
 from sklearn.base import BaseEstimator, TransformerMixin
 
 
-class FeatureAdder(BaseEstimator, TransformerMixin):
-    """Custom transformer to add engineered features."""
-    
-    def __init__(self):
-        pass
-    
-    def fit(self, X, y=None):
-        return self
-    
-    def transform(self, X):
-        X = X.copy()
-        X["AvgMonthlySpend"] = X["TotalCharges"] / (X["tenure"] + 1)
-        X["IsNewCustomer"] = (X["tenure"] < 3).astype(int)
-        X["LifetimeValueEstimate"] = X["MonthlyCharges"] * X["tenure"]
-        X["TenureGroup"] = pd.qcut(
-            X["tenure"], q=4, labels=["Q1", "Q2", "Q3", "Q4"]
-        )
-        X["MonthlyChargeTier"] = pd.qcut(
-            X["MonthlyCharges"], q=4, labels=["Low", "Med", "High", "Very High"]
-        )
-        return X
-
-
 def init():
     global model
     model_path = os.path.join(os.environ["AZUREML_MODEL_DIR"], "model.pkl")
@@ -48,15 +25,22 @@ def run(raw_data):
         else:
             customer_ids = list(range(len(df)))
         
-        # 3. Predecir probabilidades
+        # 3. FEATURE ENGINEERING (AGREGAR AQUÍ)
+        df["AvgMonthlySpend"] = df["TotalCharges"] / (df["tenure"] + 1)
+        df["IsNewCustomer"] = (df["tenure"] < 3).astype(int)
+        df["LifetimeValueEstimate"] = df["MonthlyCharges"] * df["tenure"]
+        df["TenureGroup"] = pd.qcut(df["tenure"], q=4, labels=["Q1", "Q2", "Q3", "Q4"])
+        df["MonthlyChargeTier"] = pd.qcut(df["MonthlyCharges"], q=4, labels=["Low", "Med", "High", "Very High"])
+
+        # 4. Predecir probabilidades
         probabilities = model.predict_proba(df)[:, 1]
         
-        # 4. Aplicar threshold
+        # 5. Aplicar threshold
         # Decision
         threshold = 0.5
         predictions = (probabilities >= threshold).astype(int)
         
-        # 5. Retornar resultado
+        # 6. Retornar resultado
         results = []
         for i, (pred, prob) in enumerate(zip(predictions, probabilities)):
             results.append({

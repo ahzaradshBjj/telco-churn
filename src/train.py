@@ -24,27 +24,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-class FeatureAdder(BaseEstimator, TransformerMixin):
-    """Custom transformer to add engineered features."""
-    
-    def __init__(self):
-        pass
-    
-    def fit(self, X, y=None):
-        return self
-    
-    def transform(self, X):
-        X = X.copy()
-        X["AvgMonthlySpend"] = X["TotalCharges"] / (X["tenure"] + 1)
-        X["IsNewCustomer"] = (X["tenure"] < 3).astype(int)
-        X["LifetimeValueEstimate"] = X["MonthlyCharges"] * X["tenure"]
-        X["TenureGroup"] = pd.qcut(
-            X["tenure"], q=4, labels=["Q1", "Q2", "Q3", "Q4"]
-        )
-        X["MonthlyChargeTier"] = pd.qcut(
-            X["MonthlyCharges"], q=4, labels=["Low", "Med", "High", "Very High"]
-        )
-        return X
 
 def parse_args():
     """Parse command line arguments."""
@@ -126,6 +105,13 @@ def load_and_prepare_data(data_path, test_size, random_state):
     df['MonthlyCharges'] = pd.to_numeric(df['MonthlyCharges'], errors='coerce')
     
     print(f"Dataset shape after cleaning: {df.shape}")
+
+    # FEATURE ENGINEERING AQUÍ (NUEVO)
+    df["AvgMonthlySpend"] = df["TotalCharges"] / (df["tenure"] + 1)
+    df["IsNewCustomer"] = (df["tenure"] < 3).astype(int)
+    df["LifetimeValueEstimate"] = df["MonthlyCharges"] * df["tenure"]
+    df["TenureGroup"] = pd.qcut(df["tenure"], q=4, labels=["Q1", "Q2", "Q3", "Q4"])
+    df["MonthlyChargeTier"] = pd.qcut(df["MonthlyCharges"], q=4, labels=["Low", "Med", "High","Very High"])
     
     # Separate features and target
     X = df.drop('Churn', axis=1)
@@ -145,7 +131,8 @@ def create_preprocessing_pipeline(X_train):
     """Create preprocessing pipeline based on training data."""
     
     # Detect column types
-    tmp = FeatureAdder().fit_transform(X_train)
+    #tmp = FeatureAdder().fit_transform(X_train)
+    tmp = X_train
     
     num_attribs = tmp.select_dtypes(include=["int64", "float64"]).columns.tolist()
     cat_attribs = tmp.select_dtypes(exclude=["int64", "float64"]).columns.tolist()
@@ -198,7 +185,7 @@ def train_model(X_train, y_train, preprocessor, hyperparams):
     
     # Create full pipeline
     pipeline = Pipeline([
-        ("feature_adder", FeatureAdder()),
+        #("feature_adder", FeatureAdder()),
         ("preprocessor", preprocessor),
         ("classifier", model),
     ])
