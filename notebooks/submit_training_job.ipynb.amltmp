@@ -26,10 +26,10 @@
         "from pathlib import Path"
       ],
       "outputs": [],
-      "execution_count": 10,
+      "execution_count": 15,
       "metadata": {
         "gather": {
-          "logged": 1771340462838
+          "logged": 1771341211172
         }
       },
       "id": "b6605ac9-2dfd-4112-ac54-5cb2be33f193"
@@ -45,19 +45,14 @@
       "outputs": [
         {
           "output_type": "stream",
-          "name": "stderr",
-          "text": "Found the config file in: /config.json\nOverriding of current MeterProvider is not allowed\nOverriding of current TracerProvider is not allowed\nOverriding of current LoggerProvider is not allowed\nAttempting to instrument while already instrumented\nAttempting to instrument while already instrumented\nAttempting to instrument while already instrumented\nAttempting to instrument while already instrumented\nAttempting to instrument while already instrumented\n"
-        },
-        {
-          "output_type": "stream",
           "name": "stdout",
           "text": "Conectado a workspace: mlw-churn-dev\nResource group: rg-churn-dev\n"
         }
       ],
-      "execution_count": 11,
+      "execution_count": 16,
       "metadata": {
         "gather": {
-          "logged": 1771340463662
+          "logged": 1771341211926
         }
       },
       "id": "d6a64a9b-773d-4729-9cba-2d4a525cb49f"
@@ -93,10 +88,10 @@
           "text": "✅ Environment: churn-sklearn13:4\n"
         }
       ],
-      "execution_count": 12,
+      "execution_count": 17,
       "metadata": {
         "gather": {
-          "logged": 1771340465894
+          "logged": 1771341213772
         }
       },
       "id": "1ba6d3a3-4026-4189-9bc6-67ca6e1b4299"
@@ -121,10 +116,10 @@
           "text": "/mnt/batch/tasks/shared/LS_root/mounts/clusters/ci-churn-dev/code/Users/asandovh/telco-churn\n"
         }
       ],
-      "execution_count": 13,
+      "execution_count": 18,
       "metadata": {
         "gather": {
-          "logged": 1771340466368
+          "logged": 1771341214050
         }
       },
       "id": "53997580-69de-41d2-ab68-64160369985d"
@@ -156,18 +151,18 @@
         {
           "output_type": "stream",
           "name": "stderr",
-          "text": "\u001b[32mUploading telco-churn (4.99 MBs): 100%|██████████| 4989273/4989273 [00:01<00:00, 3979843.72it/s]\n\u001b[39m\n\n"
+          "text": "\u001b[32mUploading telco-churn (5.0 MBs): 100%|██████████| 4997060/4997060 [00:01<00:00, 4235237.93it/s]\n\u001b[39m\n\n"
         },
         {
           "output_type": "stream",
           "name": "stdout",
-          "text": "\nJob enviado!\nNombre: plum_branch_qdbn1n474v\nStatus: Starting\nStudio URL: https://ml.azure.com/runs/plum_branch_qdbn1n474v?wsid=/subscriptions/9cbbe496-fe29-459a-a3d7-44790ebac1fb/resourcegroups/rg-churn-dev/workspaces/mlw-churn-dev&tid=3048dc87-43f0-4100-9acb-ae1971c79395\n\nVer job en Azure ML Studio:\n   https://ml.azure.com/runs/plum_branch_qdbn1n474v?wsid=/subscriptions/9cbbe496-fe29-459a-a3d7-44790ebac1fb/resourcegroups/rg-churn-dev/workspaces/mlw-churn-dev&tid=3048dc87-43f0-4100-9acb-ae1971c79395\n"
+          "text": "\nJob enviado!\nNombre: loving_foot_kt73rb4g1s\nStatus: Starting\nStudio URL: https://ml.azure.com/runs/loving_foot_kt73rb4g1s?wsid=/subscriptions/9cbbe496-fe29-459a-a3d7-44790ebac1fb/resourcegroups/rg-churn-dev/workspaces/mlw-churn-dev&tid=3048dc87-43f0-4100-9acb-ae1971c79395\n\nVer job en Azure ML Studio:\n   https://ml.azure.com/runs/loving_foot_kt73rb4g1s?wsid=/subscriptions/9cbbe496-fe29-459a-a3d7-44790ebac1fb/resourcegroups/rg-churn-dev/workspaces/mlw-churn-dev&tid=3048dc87-43f0-4100-9acb-ae1971c79395\n"
         }
       ],
-      "execution_count": 14,
+      "execution_count": 19,
       "metadata": {
         "gather": {
-          "logged": 1771340481795
+          "logged": 1771341229630
         }
       },
       "id": "cf8d7f14-d496-4232-910d-9404e0c3e32a"
