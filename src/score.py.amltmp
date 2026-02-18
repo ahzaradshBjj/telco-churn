@@ -2,6 +2,7 @@ import json
 import os
 import pandas as pd
 import joblib
+from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class FeatureAdder(BaseEstimator, TransformerMixin):
