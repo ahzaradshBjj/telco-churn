@@ -16,10 +16,10 @@
         "import datetime"
       ],
       "outputs": [],
-      "execution_count": 15,
+      "execution_count": 1,
       "metadata": {
         "gather": {
-          "logged": 1771430091791
+          "logged": 1771437123419
         }
       }
     },
@@ -33,14 +33,19 @@
       "outputs": [
         {
           "output_type": "stream",
+          "name": "stderr",
+          "text": "Found the config file in: /config.json\n"
+        },
+        {
+          "output_type": "stream",
           "name": "stdout",
           "text": "Conectado: mlw-churn-dev\n"
         }
       ],
-      "execution_count": 16,
+      "execution_count": 2,
       "metadata": {
         "gather": {
-          "logged": 1771430092483
+          "logged": 1771437125345
         }
       }
     },
@@ -62,14 +67,19 @@
       "outputs": [
         {
           "output_type": "stream",
+          "name": "stderr",
+          "text": "/anaconda/envs/azureml_py310_sdkv2/lib/python3.10/site-packages/mlflow/__init__.py:41: UserWarning: Versions of mlflow (3.8.1) and child packages mlflow-skinny (3.5.0) are different. This may lead to unexpected behavior. Please install the same version of all MLflow packages.\n  mlflow.mismatch._check_version_mismatch()\n"
+        },
+        {
+          "output_type": "stream",
           "name": "stdout",
           "text": " Endpoint creado: churn-asandoval-endpoint\n"
         }
       ],
-      "execution_count": 19,
+      "execution_count": 3,
       "metadata": {
         "gather": {
-          "logged": 1771430186629
+          "logged": 1771437190900
         }
       }
     },
@@ -80,10 +90,10 @@
         "current_dir = Path.cwd()\n",
         "project_root = current_dir.parent if current_dir.name == 'notebooks' else current_dir\n",
         "\n",
-        "# Crear environment con NOMBRE\n",
+        "# Crear environment (mismo que antes)\n",
         "env_final = Environment(\n",
         "    name=\"churn-env-final\",\n",
-        "    description=\"Final environment with sklearn 1.3 and FeatureAdder support\",\n",
+        "    description=\"Final environment with sklearn 1.3\",\n",
         "    conda_file={\n",
         "        \"channels\": [\"conda-forge\"],\n",
         "        \"dependencies\": [\n",
@@ -94,8 +104,8 @@
         "                    \"numpy==1.23.5\",\n",
         "                    \"scikit-learn==1.3.0\",\n",
         "                    \"pandas==2.0.0\",\n",
-        "                    \"joblib==1.3.0\", \n",
-        "                    \"azureml-inference-server-http==1.5.0\", \n",
+        "                    \"joblib==1.3.0\",\n",
+        "                    \"azureml-inference-server-http==1.5.0\",\n",
         "                ]\n",
         "            }\n",
         "        ]\n",
@@ -103,15 +113,14 @@
         "    image=\"mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04\",\n",
         ")\n",
         "\n",
-        "# Registrar environment primero\n",
         "env_final = ml_client.environments.create_or_update(env_final)\n",
         "print(f\"Environment: {env_final.name}:{env_final.version}\")\n",
         "\n",
-        "# Crear deployment usando ese environment\n",
+        "# Deployment con modelo v4\n",
         "deployment = ManagedOnlineDeployment(\n",
-        "    name=\"churn-deployment-v4\",\n",
+        "    name=\"churn-deployment-final\",  # Nuevo nombre\n",
         "    endpoint_name=endpoint_name,\n",
-        "    model=ml_client.models.get(name=\"telco-churn-model\", version=\"3\"),\n",
+        "    model=ml_client.models.get(name=\"telco-churn-model\", version=\"5\"),\n",
         "    code_configuration=CodeConfiguration(\n",
         "        code=str(project_root / \"src\"),\n",
         "        scoring_script=\"score.py\"\n",
@@ -133,34 +142,13 @@
         {
           "output_type": "stream",
           "name": "stdout",
-          "text": ".............................................................................................................."
-        },
-        {
-          "output_type": "error",
-          "ename": "HttpResponseError",
-          "evalue": "(BadArgument) User container has crashed or terminated. Please see troubleshooting guide, available here: https://aka.ms/oe-tsg#error-resourcenotready\nCode: BadArgument\nMessage: User container has crashed or terminated. Please see troubleshooting guide, available here: https://aka.ms/oe-tsg#error-resourcenotready",
-          "traceback": [
-            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
-            "\u001b[0;31mOperationFailed\u001b[0m                           Traceback (most recent call last)",
-            "File \u001b[0;32m/anaconda/envs/azureml_py310_sdkv2/lib/python3.10/site-packages/azure/core/polling/base_polling.py:805\u001b[0m, in \u001b[0;36mLROBasePolling.run\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m    804\u001b[0m \u001b[38;5;28;01mtry\u001b[39;00m:\n\u001b[0;32m--> 805\u001b[0m     \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43m_poll\u001b[49m\u001b[43m(\u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m    807\u001b[0m \u001b[38;5;28;01mexcept\u001b[39;00m BadStatus \u001b[38;5;28;01mas\u001b[39;00m err:\n",
-            "File \u001b[0;32m/anaconda/envs/azureml_py310_sdkv2/lib/python3.10/site-packages/azure/core/polling/base_polling.py:837\u001b[0m, in \u001b[0;36mLROBasePolling._poll\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m    836\u001b[0m \u001b[38;5;28;01mif\u001b[39;00m _failed(\u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mstatus()):\n\u001b[0;32m--> 837\u001b[0m     \u001b[38;5;28;01mraise\u001b[39;00m OperationFailed(\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mOperation failed or canceled\u001b[39m\u001b[38;5;124m\"\u001b[39m)\n\u001b[1;32m    839\u001b[0m final_get_url \u001b[38;5;241m=\u001b[39m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39m_operation\u001b[38;5;241m.\u001b[39mget_final_get_url(\u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39m_pipeline_response)\n",
-            "\u001b[0;31mOperationFailed\u001b[0m: Operation failed or canceled",
-            "\nThe above exception was the direct cause of the following exception:\n",
-            "\u001b[0;31mHttpResponseError\u001b[0m                         Traceback (most recent call last)",
-            "Cell \u001b[0;32mIn[26], line 46\u001b[0m\n\u001b[1;32m     32\u001b[0m \u001b[38;5;66;03m# Crear deployment usando ese environment\u001b[39;00m\n\u001b[1;32m     33\u001b[0m deployment \u001b[38;5;241m=\u001b[39m ManagedOnlineDeployment(\n\u001b[1;32m     34\u001b[0m     name\u001b[38;5;241m=\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mchurn-deployment-v4\u001b[39m\u001b[38;5;124m\"\u001b[39m,\n\u001b[1;32m     35\u001b[0m     endpoint_name\u001b[38;5;241m=\u001b[39mendpoint_name,\n\u001b[0;32m   (...)\u001b[0m\n\u001b[1;32m     43\u001b[0m     instance_count\u001b[38;5;241m=\u001b[39m\u001b[38;5;241m1\u001b[39m,\n\u001b[1;32m     44\u001b[0m )\n\u001b[0;32m---> 46\u001b[0m \u001b[43mml_client\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43monline_deployments\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mbegin_create_or_update\u001b[49m\u001b[43m(\u001b[49m\u001b[43mdeployment\u001b[49m\u001b[43m)\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mresult\u001b[49m\u001b[43m(\u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m     47\u001b[0m \u001b[38;5;28mprint\u001b[39m(\u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mDeployment creado\u001b[39m\u001b[38;5;124m\"\u001b[39m)\n",
-            "File \u001b[0;32m/anaconda/envs/azureml_py310_sdkv2/lib/python3.10/site-packages/azure/core/polling/_poller.py:326\u001b[0m, in \u001b[0;36mLROPoller.result\u001b[0;34m(self, timeout)\u001b[0m\n\u001b[1;32m    317\u001b[0m \u001b[38;5;28;01mdef\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[38;5;21mresult\u001b[39m(\u001b[38;5;28mself\u001b[39m, timeout: Optional[\u001b[38;5;28mfloat\u001b[39m] \u001b[38;5;241m=\u001b[39m \u001b[38;5;28;01mNone\u001b[39;00m) \u001b[38;5;241m-\u001b[39m\u001b[38;5;241m>\u001b[39m PollingReturnType_co:\n\u001b[1;32m    318\u001b[0m \u001b[38;5;250m    \u001b[39m\u001b[38;5;124;03m\"\"\"Return the result of the long running operation, or\u001b[39;00m\n\u001b[1;32m    319\u001b[0m \u001b[38;5;124;03m    the result available after the specified timeout.\u001b[39;00m\n\u001b[1;32m    320\u001b[0m \n\u001b[0;32m   (...)\u001b[0m\n\u001b[1;32m    324\u001b[0m \u001b[38;5;124;03m    :raises ~azure.core.exceptions.HttpResponseError: Server problem with the query.\u001b[39;00m\n\u001b[1;32m    325\u001b[0m \u001b[38;5;124;03m    \"\"\"\u001b[39;00m\n\u001b[0;32m--> 326\u001b[0m     \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mwait\u001b[49m\u001b[43m(\u001b[49m\u001b[43mtimeout\u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m    327\u001b[0m     \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39m_polling_method\u001b[38;5;241m.\u001b[39mresource()\n",
-            "File \u001b[0;32m/anaconda/envs/azureml_py310_sdkv2/lib/python3.10/site-packages/azure/core/tracing/decorator.py:138\u001b[0m, in \u001b[0;36mdistributed_trace.<locals>.decorator.<locals>.wrapper_use_tracer\u001b[0;34m(*args, **kwargs)\u001b[0m\n\u001b[1;32m    136\u001b[0m             \u001b[38;5;28;01mfor\u001b[39;00m key, value \u001b[38;5;129;01min\u001b[39;00m span_attributes\u001b[38;5;241m.\u001b[39mitems():\n\u001b[1;32m    137\u001b[0m                 span\u001b[38;5;241m.\u001b[39madd_attribute(key, value)  \u001b[38;5;66;03m# type: ignore\u001b[39;00m\n\u001b[0;32m--> 138\u001b[0m             \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[43mfunc\u001b[49m\u001b[43m(\u001b[49m\u001b[38;5;241;43m*\u001b[39;49m\u001b[43margs\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[38;5;241;43m*\u001b[39;49m\u001b[38;5;241;43m*\u001b[39;49m\u001b[43mkwargs\u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m    139\u001b[0m \u001b[38;5;28;01melse\u001b[39;00m:\n\u001b[1;32m    140\u001b[0m     \u001b[38;5;66;03m# Native path\u001b[39;00m\n\u001b[1;32m    141\u001b[0m     config \u001b[38;5;241m=\u001b[39m {}\n",
-            "File \u001b[0;32m/anaconda/envs/azureml_py310_sdkv2/lib/python3.10/site-packages/azure/core/polling/_poller.py:345\u001b[0m, in \u001b[0;36mLROPoller.wait\u001b[0;34m(self, timeout)\u001b[0m\n\u001b[1;32m    341\u001b[0m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39m_thread\u001b[38;5;241m.\u001b[39mjoin(timeout\u001b[38;5;241m=\u001b[39mtimeout)\n\u001b[1;32m    342\u001b[0m \u001b[38;5;28;01mtry\u001b[39;00m:\n\u001b[1;32m    343\u001b[0m     \u001b[38;5;66;03m# Let's handle possible None in forgiveness here\u001b[39;00m\n\u001b[1;32m    344\u001b[0m     \u001b[38;5;66;03m# https://github.com/python/mypy/issues/8165\u001b[39;00m\n\u001b[0;32m--> 345\u001b[0m     \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39m_exception  \u001b[38;5;66;03m# type: ignore\u001b[39;00m\n\u001b[1;32m    346\u001b[0m \u001b[38;5;28;01mexcept\u001b[39;00m \u001b[38;5;167;01mTypeError\u001b[39;00m:  \u001b[38;5;66;03m# Was None\u001b[39;00m\n\u001b[1;32m    347\u001b[0m     \u001b[38;5;28;01mpass\u001b[39;00m\n",
-            "File \u001b[0;32m/anaconda/envs/azureml_py310_sdkv2/lib/python3.10/site-packages/azure/core/polling/_poller.py:250\u001b[0m, in \u001b[0;36mLROPoller._start\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m    246\u001b[0m \u001b[38;5;250m\u001b[39m\u001b[38;5;124;03m\"\"\"Start the long running operation.\u001b[39;00m\n\u001b[1;32m    247\u001b[0m \u001b[38;5;124;03mOn completion, runs any callbacks.\u001b[39;00m\n\u001b[1;32m    248\u001b[0m \u001b[38;5;124;03m\"\"\"\u001b[39;00m\n\u001b[1;32m    249\u001b[0m \u001b[38;5;28;01mtry\u001b[39;00m:\n\u001b[0;32m--> 250\u001b[0m     \u001b[38;5;28;43mself\u001b[39;49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43m_polling_method\u001b[49m\u001b[38;5;241;43m.\u001b[39;49m\u001b[43mrun\u001b[49m\u001b[43m(\u001b[49m\u001b[43m)\u001b[49m\n\u001b[1;32m    251\u001b[0m \u001b[38;5;28;01mexcept\u001b[39;00m AzureError \u001b[38;5;28;01mas\u001b[39;00m error:\n\u001b[1;32m    252\u001b[0m     \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;129;01mnot\u001b[39;00m error\u001b[38;5;241m.\u001b[39mcontinuation_token:\n",
-            "File \u001b[0;32m/anaconda/envs/azureml_py310_sdkv2/lib/python3.10/site-packages/azure/core/polling/base_polling.py:820\u001b[0m, in \u001b[0;36mLROBasePolling.run\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m    813\u001b[0m     \u001b[38;5;28;01mraise\u001b[39;00m HttpResponseError(\n\u001b[1;32m    814\u001b[0m         response\u001b[38;5;241m=\u001b[39m\u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39m_pipeline_response\u001b[38;5;241m.\u001b[39mhttp_response,\n\u001b[1;32m    815\u001b[0m         message\u001b[38;5;241m=\u001b[39m\u001b[38;5;28mstr\u001b[39m(err),\n\u001b[1;32m    816\u001b[0m         error\u001b[38;5;241m=\u001b[39merr,\n\u001b[1;32m    817\u001b[0m     ) \u001b[38;5;28;01mfrom\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[38;5;21;01merr\u001b[39;00m\n\u001b[1;32m    819\u001b[0m \u001b[38;5;28;01mexcept\u001b[39;00m OperationFailed \u001b[38;5;28;01mas\u001b[39;00m err:\n\u001b[0;32m--> 820\u001b[0m     \u001b[38;5;28;01mraise\u001b[39;00m HttpResponseError(response\u001b[38;5;241m=\u001b[39m\u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39m_pipeline_response\u001b[38;5;241m.\u001b[39mhttp_response, error\u001b[38;5;241m=\u001b[39merr) \u001b[38;5;28;01mfrom\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[38;5;21;01merr\u001b[39;00m\n",
-            "\u001b[0;31mHttpResponseError\u001b[0m: (BadArgument) User container has crashed or terminated. Please see troubleshooting guide, available here: https://aka.ms/oe-tsg#error-resourcenotready\nCode: BadArgument\nMessage: User container has crashed or terminated. Please see troubleshooting guide, available here: https://aka.ms/oe-tsg#error-resourcenotready"
-          ]
+          "text": "..................................................................................Deployment creado\n"
         }
       ],
-      "execution_count": 26,
+      "execution_count": 5,
       "metadata": {
         "gather": {
-          "logged": 1771433476946
+          "logged": 1771438935277
         }
       }
     },
@@ -168,15 +156,22 @@
       "cell_type": "code",
       "source": [
         "#ml_client.online_deployments.begin_delete(\n",
-        "#    name=\"churn-deployment-v3\",\n",
+        "#    name=\"churn-deployment-final\",\n",
         "#    endpoint_name=endpoint_name\n",
         "#).result()"
       ],
       "outputs": [],
-      "execution_count": 25,
+      "execution_count": null,
+      "metadata": {}
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
       "metadata": {
-        "gather": {
-          "logged": 1771432883501
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
         }
       }
     },
@@ -184,15 +179,86 @@
       "cell_type": "code",
       "source": [
         "# Celda 5 - Asignar 100% tráfico al deployment\n",
-        "endpoint.traffic = {\"churn-deployment-v4\": 100}\n",
+        "endpoint.traffic = {\"churn-deployment-final\": 100}\n",
         "ml_client.online_endpoints.begin_create_or_update(endpoint).result()\n",
-        "print(f\"✅ Tráfico asignado!\")"
+        "print(f\"Tráfico asignado!\")"
       ],
-      "outputs": [],
-      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": "Tráfico asignado!\n"
+        }
+      ],
+      "execution_count": 7,
       "metadata": {
         "gather": {
-          "logged": 1771433477026
+          "logged": 1771439229730
+        }
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Probar request real\n",
+        "\n",
+        "import requests\n",
+        "import json\n",
+        "\n",
+        "# 1. Obtener URL y key del endpoint\n",
+        "endpoint = ml_client.online_endpoints.get(endpoint_name)\n",
+        "scoring_uri = endpoint.scoring_uri\n",
+        "key = ml_client.online_endpoints.get_keys(endpoint_name).primary_key\n",
+        "\n",
+        "print(f\"Scoring URI: {scoring_uri}\")\n",
+        "\n",
+        "# 2. Datos de prueba (un cliente)\n",
+        "data = {\n",
+        "    \"customerID\": [\"CUST-001\", \"CUST-002\", \"CUST-003\", \"CUST-004\"],\n",
+        "    \"gender\": [\"Female\", \"Male\", \"Female\", \"Male\"],\n",
+        "    \"SeniorCitizen\": [0, 1, 0, 0],\n",
+        "    \"Partner\": [\"Yes\", \"No\", \"Yes\", \"No\"],\n",
+        "    \"Dependents\": [\"No\", \"No\", \"Yes\", \"No\"],\n",
+        "    \"tenure\": [12, 36, 6, 48],\n",
+        "    \"PhoneService\": [\"Yes\", \"Yes\", \"Yes\", \"No\"],\n",
+        "    \"MultipleLines\": [\"No\", \"Yes\", \"No\", \"No phone service\"],\n",
+        "    \"InternetService\": [\"Fiber optic\", \"DSL\", \"Fiber optic\", \"No\"],\n",
+        "    \"OnlineSecurity\": [\"No\", \"Yes\", \"No\", \"No internet service\"],\n",
+        "    \"OnlineBackup\": [\"No\", \"Yes\", \"No\", \"No internet service\"],\n",
+        "    \"DeviceProtection\": [\"No\", \"No\", \"No\", \"No internet service\"],\n",
+        "    \"TechSupport\": [\"No\", \"Yes\", \"No\", \"No internet service\"],\n",
+        "    \"StreamingTV\": [\"No\", \"Yes\", \"No\", \"No internet service\"],\n",
+        "    \"StreamingMovies\": [\"No\", \"No\", \"No\", \"No internet service\"],\n",
+        "    \"Contract\": [\"Month-to-month\", \"Two year\", \"Month-to-month\", \"One year\"],\n",
+        "    \"PaperlessBilling\": [\"Yes\", \"No\", \"Yes\", \"No\"],\n",
+        "    \"PaymentMethod\": [\"Electronic check\", \"Bank transfer\", \"Electronic check\", \"Mailed check\"],\n",
+        "    \"MonthlyCharges\": [70.0, 55.0, 85.0, 25.0],\n",
+        "    \"TotalCharges\": [840.0, 1980.0, 510.0, 1200.0]\n",
+        "}\n",
+        "\n",
+        "# 3. Hacer request\n",
+        "headers = {\n",
+        "    \"Content-Type\": \"application/json\",\n",
+        "    \"Authorization\": f\"Bearer {key}\"\n",
+        "}\n",
+        "\n",
+        "response = requests.post(scoring_uri, headers=headers, data=json.dumps(data))\n",
+        "\n",
+        "# 4. Ver resultado\n",
+        "print(f\"\\nStatus: {response.status_code}\")\n",
+        "print(f\"Response: {response.json()}\")"
+      ],
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": "Scoring URI: https://churn-asandoval-endpoint.eastus2.inference.ml.azure.com/score\n\nStatus: 200\nResponse: {\"error\": \"\\\"['customerID'] not in index\\\"\"}\n"
+        }
+      ],
+      "execution_count": 10,
+      "metadata": {
+        "gather": {
+          "logged": 1771439513239
         }
       }
     },

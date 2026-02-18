@@ -17,20 +17,20 @@ def run(raw_data):
         # 1. Parsear datos
         data = json.loads(raw_data)
         df = pd.DataFrame(data)
-        
-        # 2. Guardar y eliminar customerID
-        if 'customerID' in df.columns:
-            customer_ids = df['customerID'].tolist()
-            df = df.drop('customerID', axis=1)
-        else:
-            customer_ids = list(range(len(df)))
-        
-        # 3. FEATURE ENGINEERING (AGREGAR AQUÍ)
+
+        # 2. FEATURE ENGINEERING 
         df["AvgMonthlySpend"] = df["TotalCharges"] / (df["tenure"] + 1)
         df["IsNewCustomer"] = (df["tenure"] < 3).astype(int)
         df["LifetimeValueEstimate"] = df["MonthlyCharges"] * df["tenure"]
         df["TenureGroup"] = pd.qcut(df["tenure"], q=4, labels=["Q1", "Q2", "Q3", "Q4"])
         df["MonthlyChargeTier"] = pd.qcut(df["MonthlyCharges"], q=4, labels=["Low", "Med", "High", "Very High"])
+        
+        # 3. Guardar y eliminar customerID
+        if 'customerID' in df.columns:
+            customer_ids = df['customerID'].tolist()
+            df = df.drop('customerID', axis=1)
+        else:
+            customer_ids = list(range(len(df)))      
 
         # 4. Predecir probabilidades
         probabilities = model.predict_proba(df)[:, 1]
