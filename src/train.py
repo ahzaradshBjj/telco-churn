@@ -112,6 +112,9 @@ def load_and_prepare_data(data_path, test_size, random_state):
     df["LifetimeValueEstimate"] = df["MonthlyCharges"] * df["tenure"]
     df["TenureGroup"] = pd.qcut(df["tenure"], q=4, labels=["Q1", "Q2", "Q3", "Q4"])
     df["MonthlyChargeTier"] = pd.qcut(df["MonthlyCharges"], q=4, labels=["Low", "Med", "High","Very High"])
+
+    if 'customerID' in df.columns:
+        df = df.drop('customerID', axis=1)
     
     # Separate features and target
     X = df.drop('Churn', axis=1)
